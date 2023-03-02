@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
+import { customAlphabet } from "nanoid";
 
 export interface IUrl {
   _id: string,  
@@ -9,9 +10,14 @@ export interface IUrl {
   updatedAt: Date,
 }
 
-const urlSchema = new Schema<IUrl>(
+//Interface needed for static methods
+interface UrlModel extends Model<IUrl> {
+  generateId(): Promise<string>;
+}
+
+const urlSchema = new Schema<IUrl, UrlModel>(
   {
-    _id: { type: String, required: true, unique: true }, 
+    _id: { type: String, required: true, unique: true },
     originalUrl: { type: String, required: true },
     shortUrl: { type: String, required: true },
     clickCount: { type: Number, default: 0 },
@@ -19,4 +25,10 @@ const urlSchema = new Schema<IUrl>(
   { timestamps: true }
 );
 
-export const Url = mongoose.model("Url", urlSchema);
+urlSchema.static('generateId', async function generateId() {
+  const alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
+  const nanoid = customAlphabet(alphabet, 6);
+  return await nanoid();
+});
+
+export const Url = mongoose.model<IUrl, UrlModel>("Url", urlSchema);
