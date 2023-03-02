@@ -11,7 +11,7 @@ export interface IUrl {
 
 const urlSchema = new Schema<IUrl>(
   {
-    _id: { type: String, required: true }, 
+    _id: { type: String, required: true, unique: true }, 
     originalUrl: { type: String, required: true },
     shortUrl: { type: String, required: true },
     clickCount: { type: Number, default: 0 },
