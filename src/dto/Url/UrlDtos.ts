@@ -1,4 +1,4 @@
-import { IUrl } from "../db/models/Url.js";
+import { IUrl } from "../../db/models/Url.js";
 
 export type CreateUrlDTO = {
   urlToShorten: string;
