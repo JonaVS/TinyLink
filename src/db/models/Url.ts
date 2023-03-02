@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-export interface Link {
+export interface IUrl {
   _id: string,  
   originalUrl: string;
   shortUrl: string;
@@ -9,7 +9,7 @@ export interface Link {
   updatedAt: Date,
 }
 
-const linkSchema = new Schema<Link>(
+const urlSchema = new Schema<IUrl>(
   {
     _id: { type: String, required: true }, 
     originalUrl: { type: String, required: true },
@@ -19,4 +19,4 @@ const linkSchema = new Schema<Link>(
   { timestamps: true }
 );
 
-export const Link = mongoose.model("Link", linkSchema);
+export const Url = mongoose.model("Url", urlSchema);
