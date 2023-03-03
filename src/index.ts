@@ -1,15 +1,15 @@
 import { config } from "dotenv";
 config();
 import express from "express";
-import { getHelloMessage } from "./controllers/helloController.js";
 import mongoose from "mongoose";
+import router from "./routes/index.js";
 
 const PORT = 5000;
 const app = express();
 
 app.use(express.json());
 
-app.get("/", getHelloMessage);
+app.use("/", router)
 
 try {
   await mongoose.connect(process.env.MONGO_URL);
