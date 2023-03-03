@@ -12,10 +12,11 @@ export const createUrl = async ( urlToShorten:string ): Promise<ActionResult<Hyd
   }
 
   try {
+    const normalizedUrl = new URL(urlToShorten).toString();
     const urlId = await Url.generateId();
     result.data = await Url.create({
       _id: urlId,
-      originalUrl: urlToShorten,
+      originalUrl: normalizedUrl,
       shortUrl: `https://${process.env.API_DOMAIN}/${urlId}`,
     });
   } catch (error) {
