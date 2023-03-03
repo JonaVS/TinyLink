@@ -17,7 +17,7 @@ interface IUrlModel extends Model<IUrl> {
 
 const urlSchema = new Schema<IUrl, IUrlModel>(
   {
-    _id: { type: String, required: true, unique: true },
+    _id: { type: String },
     originalUrl: { type: String, required: true },
     shortUrl: { type: String, required: true },
     clickCount: { type: Number, default: 0 },
