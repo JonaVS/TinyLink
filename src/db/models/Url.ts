@@ -11,11 +11,11 @@ export interface IUrl {
 }
 
 //Interface needed for static methods
-interface UrlModel extends Model<IUrl> {
+interface IUrlModel extends Model<IUrl> {
   generateId(): Promise<string>;
 }
 
-const urlSchema = new Schema<IUrl, UrlModel>(
+const urlSchema = new Schema<IUrl, IUrlModel>(
   {
     _id: { type: String, required: true, unique: true },
     originalUrl: { type: String, required: true },
@@ -31,4 +31,4 @@ urlSchema.static('generateId', async function generateId() {
   return await nanoid();
 });
 
-export const Url = mongoose.model<IUrl, UrlModel>("Url", urlSchema);
+export const Url = mongoose.model<IUrl, IUrlModel>("Url", urlSchema);
