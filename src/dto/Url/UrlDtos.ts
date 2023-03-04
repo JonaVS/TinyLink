@@ -7,3 +7,7 @@ export type CreateUrlDTO = {
 export type UrlDTO = Omit<IUrl, "_id"> & {
   id: string
 };
+
+export type OriginalUrlDTO = {
+  originalUrl: string
+}
