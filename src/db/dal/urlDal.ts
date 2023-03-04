@@ -31,3 +31,38 @@ export const createUrl = async ( urlToShorten:string ): Promise<ActionResult<Hyd
 
   return result;
 };
+
+export const findOriginalUrl = async (shortUrlId:string):Promise<ActionResult<HydratedDocument<IUrl> | null>> => {
+  const result = new ActionResult<HydratedDocument<IUrl> | null>(null);
+  let dbUrl:HydratedDocument<IUrl> | null = null; 
+
+  /******FIND OPERATION******/
+  try {
+    dbUrl = await Url.findById(shortUrlId);
+    if (!dbUrl) {
+      result.setError(404, "Invalid shortened URL id");
+      return result;
+    }
+  } catch (error) {
+    result.setError(500, "An error ocurred while fetching the shortened URL");
+    return result;
+  }
+
+  /******CLICK COUNT INCREASE OPERATION******/
+  /*
+    If the above code is successful the server is able to redirect the user, 
+      so, if the click count increase for some reason fails, 
+      the server just catch and logs the error and proceed with the redirection.
+  */
+    try {  
+     dbUrl.clickCount++;
+     await dbUrl.save();
+    } catch (error) {
+      console.log(
+        `The click count increase for the shortUrl: ${dbUrl.shortUrl} with id: ${dbUrl._id} failed`
+      );
+    }
+
+  result.data = dbUrl; 
+  return result
+}
