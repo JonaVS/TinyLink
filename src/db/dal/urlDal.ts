@@ -14,7 +14,10 @@ export const createUrl = async ( urlToShorten:string ): Promise<ActionResult<Hyd
   try {
     const normalizedUrl = new URL(urlToShorten).toString();
     const urlId = await Url.generateId();
-    const shortenedUrl = `https://${process.env.API_DOMAIN}/${urlId}`
+    const shortenedUrl =
+      process.env.NODE_ENV === "production"
+        ? `https://${process.env.API_DOMAIN}/${urlId}`
+        : `http://localhost:5000/${urlId}`
 
     result.data = await Url.create({
       _id: urlId,
@@ -25,7 +28,6 @@ export const createUrl = async ( urlToShorten:string ): Promise<ActionResult<Hyd
   } catch (error) {
     result.setError(500, "An error ocurred while creating the shortened URL");
   }
-
 
   return result;
 };
