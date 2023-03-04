@@ -1,6 +1,6 @@
 import { HydratedDocument } from "mongoose";
 import { IUrl } from "../../db/models/Url.js";
-import { UrlDTO } from "./UrlDtos.js";
+import { OriginalUrlDTO, UrlDTO } from "./UrlDtos.js";
 
 export const toUrlDto = (createdUrl: HydratedDocument<IUrl>): UrlDTO => {
   return {
@@ -12,3 +12,9 @@ export const toUrlDto = (createdUrl: HydratedDocument<IUrl>): UrlDTO => {
     updatedAt: createdUrl.updatedAt,
   };
 };
+
+export const toOriginalUrlDto = (url: HydratedDocument<IUrl>): OriginalUrlDTO => {
+  return {
+    originalUrl: url.originalUrl
+  }
+}
