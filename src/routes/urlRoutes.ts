@@ -1,5 +1,5 @@
 import { Response, Router } from "express";
-import { CreateRequest } from "../types/Requests.js";
+import { CreateRequest, RequestById } from "../types/Requests.js";
 import { CreateUrlDTO } from "../dto/Url/UrlDtos.js";
 import * as urlController from "../controllers/urlController.js"
 
@@ -14,6 +14,29 @@ shortenerRouter.post(
       res.status(result.errorCode!).json({ error: result.error });
     } else {
       res.status(200).json(result.data);
+    }
+  }
+);
+
+shortenerRouter.get(
+  "/:id",
+  async (req: RequestById, res: Response) => {
+    const result = await urlController.findOrinalUrl(req.params.id);
+
+    /*
+     Prevents browsers for using cache with the shortened URLs
+     This is needed to keep track of shortened URLs clicks count.
+     The downside of this is that the db is going to get called everytime.
+    */
+    res.setHeader('Cache-Control', 'no-cache');
+
+    if (!result.success) {
+      /*
+        This response is temporal. The real one will redirect to a frontend special 404 page
+      */
+      res.status(result.errorCode!).json({ error: result.error });
+    } else {
+      res.redirect(301, result.data!.originalUrl)
     }
   }
 );
