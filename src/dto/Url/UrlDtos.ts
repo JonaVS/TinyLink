@@ -11,3 +11,5 @@ export type UrlDTO = Omit<IUrl, "_id"> & {
 export type OriginalUrlDTO = {
   originalUrl: string
 }
+
+export type UrlClickCountDTO = Pick<IUrl, "shortUrl" | "clickCount">
