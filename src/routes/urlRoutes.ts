@@ -1,4 +1,4 @@
-import { Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { CreateRequest, RequestById } from "../types/Requests.js";
 import { CreateUrlDTO } from "../dto/Url/UrlDtos.js";
 import * as urlController from "../controllers/urlController.js"
@@ -9,6 +9,19 @@ shortenerRouter.post(
   "/shortener",
   async (req: CreateRequest<CreateUrlDTO>, res: Response) => {
     const result = await urlController.createUrl(req.body);
+
+    if (!result.success) {
+      res.status(result.errorCode!).json({ error: result.error });
+    } else {
+      res.status(200).json(result.data);
+    }
+  }
+);
+
+shortenerRouter.get(
+  "/clickcount/*",
+  async (req: Request, res: Response) => {
+    const result = await urlController.getUrlClickCount(req.params[0]);
 
     if (!result.success) {
       res.status(result.errorCode!).json({ error: result.error });
