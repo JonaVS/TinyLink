@@ -1,6 +1,6 @@
 import { HydratedDocument } from "mongoose";
 import { ActionResult } from "../../types/ActionResult.js";
-import { isValidUrlFormat } from "../../utils/urlFormatValidator.js";
+import { isValidShortenedUrl, isValidUrlFormat } from "../../utils/urlFormatValidator.js";
 import { IUrl, Url } from "../models/Url.js";
 
 export const createUrl = async ( urlToShorten:string ): Promise<ActionResult<HydratedDocument<IUrl> | null>> => {
@@ -65,4 +65,27 @@ export const findOriginalUrl = async (shortUrlId:string):Promise<ActionResult<Hy
 
   result.data = dbUrl; 
   return result
+}
+
+export const findUrlByShortUrl = async (shortUrl: string):Promise<ActionResult<HydratedDocument<IUrl> | null>> => {
+  const result = new ActionResult<HydratedDocument<IUrl> | null>(null);
+
+  if (!isValidShortenedUrl(shortUrl)) {
+    result.setError(400, "Invalid shortened URL format")
+    return result;
+  }
+
+  const urlId = shortUrl.split('/').pop();
+
+  try {
+    result.data = await Url.findById(urlId);
+    if (!result.data) {
+      result.setError(404, "Invalid shortened URL");
+      return result;
+    }
+  } catch (error) {
+    result.setError(500, "An error ocurred while fetching the URL data");
+  }
+
+  return result;
 }
