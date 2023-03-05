@@ -16,3 +16,13 @@ export const isValidUrlFormat = (url: string): boolean => {
     return false;
   }
 };
+
+export const isValidShortenedUrl = (shortenedUrl: string):boolean => {
+  const domain =
+    process.env.NODE_ENV === "production"
+      ? process.env.API_DOMAIN
+      : "localhost:5000"
+
+  const shortenedUrlRegex = new RegExp(`^https?://${domain}/[a-zA-Z0-9]{6}$`, "i");
+  return shortenedUrl?.match(shortenedUrlRegex) ? true : false;
+}
