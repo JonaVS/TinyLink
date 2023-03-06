@@ -1,4 +1,6 @@
 import { Request, Response, Router } from "express";
+import { createUrlRequestGuardian  } from "../middlewares/routeGuardians/shortenerGuardians.js";
+import { validationResult as guardianResult } from "express-validator";
 import { CreateRequest, RequestById } from "../types/Requests.js";
 import { CreateUrlDTO } from "../dto/Url/UrlDtos.js";
 import * as urlController from "../controllers/urlController.js"
@@ -7,7 +9,15 @@ const shortenerRouter = Router();
 
 shortenerRouter.post(
   "/shortener",
+  createUrlRequestGuardian,
   async (req: CreateRequest<CreateUrlDTO>, res: Response) => {
+    const inputValidationErrors = guardianResult(req);
+ 
+    if (!inputValidationErrors.isEmpty()) {
+      res.status(400).json({errors: inputValidationErrors.array()});
+      return
+    }
+  
     const result = await urlController.createUrl(req.body);
 
     if (!result.success) {
