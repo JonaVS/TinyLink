@@ -64,12 +64,6 @@ export const findOriginalUrl = async (shortUrlId:string):Promise<ActionResult<Hy
 
 export const findUrlByShortUrl = async (shortUrl: string):Promise<ActionResult<HydratedDocument<IUrl> | null>> => {
   const result = new ActionResult<HydratedDocument<IUrl> | null>(null);
-
-  if (!isValidShortenedUrl(shortUrl)) {
-    result.setError(400, "Invalid shortened URL format")
-    return result;
-  }
-
   const urlId = shortUrl.split('/').pop();
 
   try {
