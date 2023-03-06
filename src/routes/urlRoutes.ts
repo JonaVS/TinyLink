@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { clickCountRequestGuardian, createUrlRequestGuardian  } from "../middlewares/routeGuardians/shortenerGuardians.js";
+import { clickCountRequestGuardian, createUrlRequestGuardian, redirectRequestGuardian  } from "../middlewares/routeGuardians/shortenerGuardians.js";
 import { validationResult as guardianResult } from "express-validator";
 import { CreateRequest, RequestById } from "../types/Requests.js";
 import { CreateUrlDTO } from "../dto/Url/UrlDtos.js";
@@ -51,9 +51,19 @@ shortenerRouter.get(
 
 shortenerRouter.get(
   "/:id",
+  redirectRequestGuardian,
   async (req: RequestById, res: Response) => {
-    const result = await urlController.findOrinalUrl(req.params.id);
+    const inputValidationErrors = guardianResult(req);
 
+    if (!inputValidationErrors.isEmpty()) {
+      /*
+        This response is temporal. The real one will redirect to a frontend special 404 page
+      */
+      res.status(404).json({errors: inputValidationErrors.array()});
+      return
+    }
+
+    const result = await urlController.findOrinalUrl(req.params.id);
     /*
      Prevents browsers for using cache with the shortened URLs
      This is needed to keep track of shortened URLs clicks count.

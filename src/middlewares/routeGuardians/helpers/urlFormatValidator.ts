@@ -26,3 +26,8 @@ export const isValidShortenedUrl = (shortenedUrl: string):boolean => {
   const shortenedUrlRegex = new RegExp(`^https?://${domain}/[a-zA-Z0-9]{6}$`, "i");
   return shortenedUrl?.match(shortenedUrlRegex) ? true : false;
 }
+
+export const isValidUrlId = (urlId: string): boolean => {
+  const urlIdRegex = new RegExp(`^[a-zA-Z0-9]{6}$`);
+  return urlId?.match(urlIdRegex) ? true : false;
+};
