@@ -1,6 +1,5 @@
 import { HydratedDocument } from "mongoose";
 import { ActionResult } from "../../types/ActionResult.js";
-import { isValidShortenedUrl, isValidUrlFormat } from "../../utils/urlFormatValidator.js";
 import { IUrl, Url } from "../models/Url.js";
 
 export const createUrl = async ( urlToShorten:string ): Promise<ActionResult<HydratedDocument<IUrl> | null>> => {
