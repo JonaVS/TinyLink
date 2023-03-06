@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { createUrlRequestGuardian  } from "../middlewares/routeGuardians/shortenerGuardians.js";
+import { clickCountRequestGuardian, createUrlRequestGuardian  } from "../middlewares/routeGuardians/shortenerGuardians.js";
 import { validationResult as guardianResult } from "express-validator";
 import { CreateRequest, RequestById } from "../types/Requests.js";
 import { CreateUrlDTO } from "../dto/Url/UrlDtos.js";
@@ -30,7 +30,15 @@ shortenerRouter.post(
 
 shortenerRouter.get(
   "/clickcount/*",
+  clickCountRequestGuardian,
   async (req: Request, res: Response) => {
+    const inputValidationErrors = guardianResult(req);
+
+    if (!inputValidationErrors.isEmpty()) {
+      res.status(400).json({errors: inputValidationErrors.array()});
+      return
+    }
+
     const result = await urlController.getUrlClickCount(req.params[0]);
 
     if (!result.success) {
