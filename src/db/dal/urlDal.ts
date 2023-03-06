@@ -6,11 +6,6 @@ import { IUrl, Url } from "../models/Url.js";
 export const createUrl = async ( urlToShorten:string ): Promise<ActionResult<HydratedDocument<IUrl> | null>> => {
   const result = new ActionResult<HydratedDocument<IUrl> | null>(null);
 
-  if (!isValidUrlFormat(urlToShorten)) {
-    result.setError(400, "Invalid URL format");
-    return result;
-  }
-
   try {
     const normalizedUrl = new URL(urlToShorten).toString();
     const urlId = await Url.generateId();
