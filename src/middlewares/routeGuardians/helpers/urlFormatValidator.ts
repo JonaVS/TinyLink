@@ -1,15 +1,12 @@
-export const isValidUrlFormat = (url: string): boolean => {
+export const isServiceDomain = (url: string): boolean => {
   try {
+    const domainRegex = new RegExp(
+      `^(${process.env.API_DOMAIN}|${process.env.APP_DOMAIN})$`
+    );
+
     const parsedUrl = new URL(url);
 
-    const domainRegex = new RegExp(`^(${process.env.API_DOMAIN}|${process.env.APP_DOMAIN})$`)
-    const protocolRegex = new RegExp(/^(https?:)$/i) 
-    if (
-      parsedUrl.hostname.match(domainRegex) ||
-      !parsedUrl.protocol.match(protocolRegex)
-    ) {
-      return false;
-    }
+    if (domainRegex.test(parsedUrl.hostname)) return false; 
 
     return true
   } catch (err) {

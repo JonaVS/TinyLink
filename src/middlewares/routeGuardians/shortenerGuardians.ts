@@ -1,12 +1,12 @@
 import { body, param } from "express-validator";
-import { isValidUrlFormat, isValidShortenedUrl, isValidUrlId, } from "./helpers/urlFormatValidator.js";
+import { isServiceDomain, isValidShortenedUrl, isValidUrlId, } from "./helpers/urlFormatValidator.js";
 
 export const createUrlRequestGuardian  = body("urlToShorten")
   .exists()
   .withMessage("Invalid payload")
   .isURL()
   .withMessage("Invalid URL format")
-  .custom((url) => isValidUrlFormat(url))
+  .custom((url) => isServiceDomain(url))
   .withMessage("Invalid URL format");
 
 export const clickCountRequestGuardian = param("*")
