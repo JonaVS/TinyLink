@@ -4,6 +4,8 @@ import { isValidUrlFormat, isValidShortenedUrl, isValidUrlId, } from "./helpers/
 export const createUrlRequestGuardian  = body("urlToShorten")
   .exists()
   .withMessage("Invalid payload")
+  .isURL()
+  .withMessage("Invalid URL format")
   .custom((url) => isValidUrlFormat(url))
   .withMessage("Invalid URL format");
 
