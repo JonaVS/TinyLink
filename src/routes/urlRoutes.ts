@@ -14,7 +14,7 @@ shortenerRouter.post(
     const inputValidationErrors = guardianResult(req);
  
     if (!inputValidationErrors.isEmpty()) {
-      res.status(400).json({errors: inputValidationErrors.array()});
+      res.status(400).json({errors: inputValidationErrors.array().map(err => err.msg)});
       return
     }
   
@@ -35,7 +35,7 @@ shortenerRouter.get(
     const inputValidationErrors = guardianResult(req);
 
     if (!inputValidationErrors.isEmpty()) {
-      res.status(400).json({errors: inputValidationErrors.array()});
+      res.status(400).json({errors: inputValidationErrors.array().map(err => err.msg)});
       return
     }
 
