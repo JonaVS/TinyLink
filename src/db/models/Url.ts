@@ -26,7 +26,7 @@ const urlSchema = new Schema<IUrl, IUrlModel>(
 );
 
 urlSchema.static('generateId', async function generateId() {
-  const alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
+  const alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const nanoid = customAlphabet(alphabet, 6);
   return await nanoid();
 });
