@@ -23,7 +23,7 @@ shortenerRouter.post(
     if (!result.success) {
       res.status(result.errorCode!).json({ errors: [result.error] });
     } else {
-      res.status(200).json(result.data);
+      res.status(201).json(result.data);
     }
   }
 );
