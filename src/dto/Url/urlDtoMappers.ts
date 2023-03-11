@@ -4,12 +4,7 @@ import { OriginalUrlDTO, UrlClickCountDTO, UrlDTO } from "./UrlDtos.js";
 
 export const toUrlDto = (createdUrl: HydratedDocument<IUrl>): UrlDTO => {
   return {
-    id: createdUrl._id,
-    originalUrl: createdUrl.originalUrl,
     shortUrl: createdUrl.shortUrl,
-    clickCount: createdUrl.clickCount,
-    createdAt: createdUrl.createdAt,
-    updatedAt: createdUrl.updatedAt,
   };
 };
 

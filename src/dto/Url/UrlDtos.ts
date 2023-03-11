@@ -4,9 +4,7 @@ export type CreateUrlDTO = {
   urlToShorten: string;
 };
 
-export type UrlDTO = Omit<IUrl, "_id"> & {
-  id: string
-};
+export type UrlDTO = Pick<IUrl, "shortUrl">;
 
 export type OriginalUrlDTO = {
   originalUrl: string
