@@ -21,7 +21,7 @@ shortenerRouter.post(
     const result = await urlController.createUrl(req.body);
 
     if (!result.success) {
-      res.status(result.errorCode!).json({ error: result.error });
+      res.status(result.errorCode!).json({ errors: [result.error] });
     } else {
       res.status(200).json(result.data);
     }
@@ -42,7 +42,7 @@ shortenerRouter.get(
     const result = await urlController.getUrlClickCount(req.params[0]);
 
     if (!result.success) {
-      res.status(result.errorCode!).json({ error: result.error });
+      res.status(result.errorCode!).json({ errors: [result.error] });
     } else {
       res.status(200).json(result.data);
     }
