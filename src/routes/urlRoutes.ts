@@ -39,7 +39,7 @@ shortenerRouter.get(
       return
     }
 
-    const result = await urlController.getUrlClickCount(req.params[0]);
+    const result = await urlController.getUrlUsageCount(req.params[0]);
 
     if (!result.success) {
       res.status(result.errorCode!).json({ errors: [result.error] });

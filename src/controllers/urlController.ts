@@ -10,6 +10,6 @@ export const findOrinalUrl = async (shortUrlId: string):Promise<ActionResult<Ori
   return await urlService.findOriginalUrl(shortUrlId);
 }
 
-export const getUrlClickCount = async (urlId: string):Promise<ActionResult<UrlUsageCountDTO | null>> => {
+export const getUrlUsageCount = async (urlId: string):Promise<ActionResult<UrlUsageCountDTO | null>> => {
   return await urlService.getUrlUsageCount(urlId);
 }
