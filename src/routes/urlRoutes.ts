@@ -29,7 +29,7 @@ shortenerRouter.post(
 );
 
 shortenerRouter.get(
-  "/clickcount/*",
+  "/usageCount/*",
   clickCountRequestGuardian,
   async (req: Request, res: Response) => {
     const inputValidationErrors = guardianResult(req);
