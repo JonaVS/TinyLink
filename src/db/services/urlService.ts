@@ -1,4 +1,4 @@
-import { CreateUrlDTO, OriginalUrlDTO, UrlClickCountDTO, UrlDTO } from "../../dto/Url/UrlDtos.js";
+import { CreateUrlDTO, OriginalUrlDTO, UrlUsageCountDTO, UrlDTO } from "../../dto/Url/UrlDtos.js";
 import { ActionResult } from "../../types/ActionResult.js";
 import * as urlDal from '../dal/urlDal.js'
 import { HydratedDocument } from "mongoose";
@@ -28,13 +28,13 @@ export const findOriginalUrl = async (shortUrlId:string):Promise<ActionResult<Or
   return serviceResult;
 }
 
-export const getUrlClickCount = async (shortUrl: string):Promise<ActionResult<UrlClickCountDTO | null>> => {
+export const getUrlClickCount = async (shortUrl: string):Promise<ActionResult<UrlUsageCountDTO | null>> => {
   const dbResult = await urlDal.findUrlByShortUrl(shortUrl);
 
-  const serviceResult = toServiceActionResult<HydratedDocument<IUrl>, UrlClickCountDTO>(
+  const serviceResult = toServiceActionResult<HydratedDocument<IUrl>, UrlUsageCountDTO>(
     dbResult,
     toUrlClickCountDto
-  ) as ActionResult<UrlClickCountDTO | null>;
+  ) as ActionResult<UrlUsageCountDTO | null>;
 
   return serviceResult;
 }

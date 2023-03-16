@@ -1,6 +1,6 @@
 import { HydratedDocument } from "mongoose";
 import { IUrl } from "../../db/models/Url.js";
-import { OriginalUrlDTO, UrlClickCountDTO, UrlDTO } from "./UrlDtos.js";
+import { OriginalUrlDTO, UrlUsageCountDTO, UrlDTO } from "./UrlDtos.js";
 
 export const toUrlDto = (createdUrl: HydratedDocument<IUrl>): UrlDTO => {
   return {
@@ -14,7 +14,7 @@ export const toOriginalUrlDto = (url: HydratedDocument<IUrl>): OriginalUrlDTO =>
   }
 }
 
-export const toUrlClickCountDto = (url: HydratedDocument<IUrl>): UrlClickCountDTO => {
+export const toUrlClickCountDto = (url: HydratedDocument<IUrl>): UrlUsageCountDTO => {
   return {
     shortUrl: url.shortUrl,
     usageCount: url.usageCount
