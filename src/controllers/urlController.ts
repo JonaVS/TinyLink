@@ -11,5 +11,5 @@ export const findOrinalUrl = async (shortUrlId: string):Promise<ActionResult<Ori
 }
 
 export const getUrlClickCount = async (urlId: string):Promise<ActionResult<UrlUsageCountDTO | null>> => {
-  return await urlService.getUrlClickCount(urlId);
+  return await urlService.getUrlUsageCount(urlId);
 }

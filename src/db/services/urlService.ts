@@ -28,7 +28,7 @@ export const findOriginalUrl = async (shortUrlId:string):Promise<ActionResult<Or
   return serviceResult;
 }
 
-export const getUrlClickCount = async (shortUrl: string):Promise<ActionResult<UrlUsageCountDTO | null>> => {
+export const getUrlUsageCount = async (shortUrl: string):Promise<ActionResult<UrlUsageCountDTO | null>> => {
   const dbResult = await urlDal.findUrlByShortUrl(shortUrl);
 
   const serviceResult = toServiceActionResult<HydratedDocument<IUrl>, UrlUsageCountDTO>(
