@@ -5,7 +5,7 @@ export interface IUrl {
   _id: string,  
   originalUrl: string;
   shortUrl: string;
-  clickCount: number,
+  usageCount: number,
   createdAt: Date,
   updatedAt: Date,
 }
@@ -20,7 +20,7 @@ const urlSchema = new Schema<IUrl, IUrlModel>(
     _id: { type: String },
     originalUrl: { type: String, required: true },
     shortUrl: { type: String, required: true },
-    clickCount: { type: Number, default: 0 },
+    usageCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

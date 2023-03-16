@@ -10,4 +10,4 @@ export type OriginalUrlDTO = {
   originalUrl: string
 }
 
-export type UrlClickCountDTO = Pick<IUrl, "shortUrl" | "clickCount">
+export type UrlClickCountDTO = Pick<IUrl, "shortUrl" | "usageCount">

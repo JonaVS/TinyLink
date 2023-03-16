@@ -49,7 +49,7 @@ export const findOriginalUrl = async (shortUrlId:string):Promise<ActionResult<Hy
       the server just catch and logs the error and proceed with the redirection.
   */
     try {  
-     dbUrl.clickCount++;
+     dbUrl.usageCount++;
      await dbUrl.save();
     } catch (error) {
       console.log(
