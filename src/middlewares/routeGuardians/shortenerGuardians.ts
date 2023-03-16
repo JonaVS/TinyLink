@@ -9,7 +9,7 @@ export const createUrlRequestGuardian  = body("urlToShorten")
   .custom((url) => isServiceDomain(url))
   .withMessage("Invalid URL format");
 
-export const clickCountRequestGuardian = param("*")
+export const usageCountRequestGuardian = param("*")
   .notEmpty()
   .withMessage("A shortened URL must be provided as route param")
   .custom((shortenedUrl) => isValidShortenedUrl(shortenedUrl))

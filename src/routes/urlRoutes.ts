@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { clickCountRequestGuardian, createUrlRequestGuardian, redirectRequestGuardian  } from "../middlewares/routeGuardians/shortenerGuardians.js";
+import { usageCountRequestGuardian, createUrlRequestGuardian, redirectRequestGuardian  } from "../middlewares/routeGuardians/shortenerGuardians.js";
 import { validationResult as guardianResult } from "express-validator";
 import { CreateRequest, RequestById } from "../types/Requests.js";
 import { CreateUrlDTO } from "../dto/Url/UrlDtos.js";
@@ -30,7 +30,7 @@ shortenerRouter.post(
 
 shortenerRouter.get(
   "/usageCount/*",
-  clickCountRequestGuardian,
+  usageCountRequestGuardian,
   async (req: Request, res: Response) => {
     const inputValidationErrors = guardianResult(req);
 
