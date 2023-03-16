@@ -3,7 +3,7 @@ import { ActionResult } from "../../types/ActionResult.js";
 import * as urlDal from '../dal/urlDal.js'
 import { HydratedDocument } from "mongoose";
 import { IUrl } from "../models/Url.js";
-import { toOriginalUrlDto, toUrlClickCountDto, toUrlDto } from "../../dto/Url/urlDtoMappers.js";
+import { toOriginalUrlDto, toUrlUsageCountDto, toUrlDto } from "../../dto/Url/urlDtoMappers.js";
 import { toServiceActionResult } from "./helpers/toServiceActionResult.js";
 
 export const createUrl = async (payload: CreateUrlDTO):Promise<ActionResult<UrlDTO | null>> => {
@@ -33,7 +33,7 @@ export const getUrlClickCount = async (shortUrl: string):Promise<ActionResult<Ur
 
   const serviceResult = toServiceActionResult<HydratedDocument<IUrl>, UrlUsageCountDTO>(
     dbResult,
-    toUrlClickCountDto
+    toUrlUsageCountDto
   ) as ActionResult<UrlUsageCountDTO | null>;
 
   return serviceResult;

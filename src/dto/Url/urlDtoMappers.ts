@@ -14,7 +14,7 @@ export const toOriginalUrlDto = (url: HydratedDocument<IUrl>): OriginalUrlDTO =>
   }
 }
 
-export const toUrlClickCountDto = (url: HydratedDocument<IUrl>): UrlUsageCountDTO => {
+export const toUrlUsageCountDto = (url: HydratedDocument<IUrl>): UrlUsageCountDTO => {
   return {
     shortUrl: url.shortUrl,
     usageCount: url.usageCount
