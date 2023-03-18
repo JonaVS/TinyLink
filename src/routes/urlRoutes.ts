@@ -6,6 +6,10 @@ import { CreateUrlDTO } from "../dto/Url/UrlDtos.js";
 import * as urlController from "../controllers/urlController.js"
 
 const shortenerRouter = Router();
+const notFoundPage =
+  process.env.NODE_ENV === "production"
+  ? `https://${process.env.APP_DOMAIN}/404`
+  : `http://localhost:5173/404`
 
 shortenerRouter.post(
   "/shortener",
@@ -54,28 +58,22 @@ shortenerRouter.get(
   redirectRequestGuardian,
   async (req: RequestById, res: Response) => {
     const inputValidationErrors = guardianResult(req);
-
-    if (!inputValidationErrors.isEmpty()) {
-      /*
-        This response is temporal. The real one will redirect to a frontend special 404 page
-      */
-      res.status(404).json({errors: inputValidationErrors.array()});
-      return
-    }
-
-    const result = await urlController.findOrinalUrl(req.params.id);
     /*
      Prevents browsers for using cache with the shortened URLs
      This is needed to keep track of shortened URLs clicks count.
      The downside of this is that the db is going to get called everytime.
     */
     res.setHeader('Cache-Control', 'no-cache');
+    
+    if (!inputValidationErrors.isEmpty()) {
+      res.redirect(301, notFoundPage)
+      return
+    }
+
+    const result = await urlController.findOrinalUrl(req.params.id);
 
     if (!result.success) {
-      /*
-        This response is temporal. The real one will redirect to a frontend special 404 page
-      */
-      res.status(result.errorCode!).json({ error: result.error });
+      res.redirect(301, notFoundPage)
     } else {
       res.redirect(301, result.data!.originalUrl)
     }
