@@ -6,10 +6,11 @@ import { CreateUrlDTO } from "../dto/Url/UrlDtos.js";
 import * as urlController from "../controllers/urlController.js"
 
 const shortenerRouter = Router();
-const notFoundPage =
+
+const appBaseUrl =
   process.env.NODE_ENV === "production"
-  ? `https://${process.env.APP_DOMAIN}/404`
-  : `http://localhost:5173/404`
+  ? `https://${process.env.APP_DOMAIN}`
+  : `http://localhost:5173`
 
 shortenerRouter.post(
   "/shortener",
@@ -53,6 +54,10 @@ shortenerRouter.get(
   }
 );
 
+shortenerRouter.get("/", async (req: Request, res: Response) => {
+  res.redirect(301, appBaseUrl);
+});
+
 shortenerRouter.get(
   "/:id",
   redirectRequestGuardian,
@@ -66,14 +71,14 @@ shortenerRouter.get(
     res.setHeader('Cache-Control', 'no-cache');
     
     if (!inputValidationErrors.isEmpty()) {
-      res.redirect(301, notFoundPage)
+      res.redirect(301, `${appBaseUrl}/404`)
       return
     }
 
     const result = await urlController.findOrinalUrl(req.params.id);
 
     if (!result.success) {
-      res.redirect(301, notFoundPage)
+      res.redirect(301, `${appBaseUrl}/404`)
     } else {
       res.redirect(301, result.data!.originalUrl)
     }
