@@ -54,6 +54,10 @@ shortenerRouter.get(
   }
 );
 
+shortenerRouter.get("/", async (req: Request, res: Response) => {
+  res.redirect(301, appBaseUrl);
+});
+
 shortenerRouter.get(
   "/:id",
   redirectRequestGuardian,
